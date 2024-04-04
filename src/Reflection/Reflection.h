@@ -25,10 +25,10 @@ void ForEachIndex( F&& f )
 // TYPE CONVERSION
 
 template <typename T>
-static T convertArg( char const* _str );
+static T convertArg( std::string _str );
 
 template<>
-int convertArg<int>( char const* _str )
+int convertArg<int>( std::string _str )
 {
 	return std::stoi( _str );
 }
@@ -39,7 +39,7 @@ int convertArg<int>( char const* _str )
 class iArgOperator
 {
 public:
-	virtual void operator()( std::vector<const char*> _args ) = 0;
+	virtual void operator()( std::vector<std::string> _args ) = 0;
 };
 
 template<typename... Args>
@@ -50,7 +50,7 @@ public:
 
 	void( *f )( Args... );
 
-	virtual void operator()( std::vector<const char*> _args ) override
+	virtual void operator()( std::vector<std::string> _args ) override
 	{
 		auto sequence = std::index_sequence_for<Args...>{};
 		handleImpl( sequence, _args.data() );
@@ -58,9 +58,9 @@ public:
 
 private:
 	template<std::size_t... S>
-	void handleImpl( std::index_sequence<S...>, const char** _args )
+	void handleImpl( std::index_sequence<S...>, std::string* _args )
 	{
-		f( ConvertArg<Args>( _args[ S ] )... );
+		f( convertArg<Args>( _args[ S ] )... );
 	}
 };
 
@@ -80,7 +80,7 @@ class cReflectionRegistry
 public:
 	static std::map<std::string, sReflectionDescriptor> m_reflection_descriptors;
 	
-	inline static int registerReflection( const char* _name, const char* _file, int _line, iArgOperator* _func )
+	inline static int registerReflection( const std::string _name, const std::string _file, int _line, iArgOperator* _func )
 	{
 		sReflectionDescriptor desc{
 			.id   =  (int)m_reflection_descriptors.size(),
@@ -94,7 +94,7 @@ public:
 		return (int)m_reflection_descriptors.size();
 	}
 
-	inline static void callFunction( std::string _name, std::vector<const char*> _args = {} )
+	inline static void callFunction( std::string _name, std::vector<std::string> _args = {} )
 	{
 		if ( m_reflection_descriptors.count( _name ) == 0 )
 			return;

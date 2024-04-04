@@ -5,8 +5,7 @@
 
 
 #include "Reflection/Reflection.h"
-#include <iostream>
-
+#include "CommandConsole/cCommandConsole.h"
 
 class cTest
 {
@@ -38,12 +37,23 @@ void cTest::runTest()
 
 int main()
 {
+	
+
 	for( auto& f : cReflectionRegistry::m_reflection_descriptors )
 		printf( "%s()\n  %s (%i)\n\n", f.second.name.c_str(), f.second.file.c_str(), f.second.line );
 
-	cReflectionRegistry::callFunction( "doThing", { "321123" } );
-	cReflectionRegistry::callFunction( "doSingleThing" );
-	cReflectionRegistry::callFunction( "cTest::runTest" );
+	// cReflectionRegistry::callFunction( "doThing", { "321123" } );
+	// cReflectionRegistry::callFunction( "doSingleThing" );
+	// cReflectionRegistry::callFunction( "cTest::runTest" );
+
+	cCommandConsole command_console;
+
+	while ( true )
+	{
+		sCommand command = command_console.pollNextCommand();
+
+		cReflectionRegistry::callFunction( command.command, command.arguments );
+	}
 
 	return 0;
 }
