@@ -10,18 +10,15 @@
 
 class cTest
 {
+public:
 	static void runTest();
 };
+REFLECT_STATIC_MEMBER( cTest, runTest )
 
-void cTest::runTest()
-{
-	printf( "Ran test\n" );
-}
-
+static void doThing( int _i ); REFLECT_STATIC( doThing )
+static void doSingleThing();   REFLECT_STATIC( doSingleThing )
 
 
-static void doThing( int _i ); REFLECT_FUNC( doThing )
-static void doSingleThing();   REFLECT_FUNC( doSingleThing )
 
 /* impl */
 void doThing( int _i )
@@ -34,6 +31,10 @@ void doSingleThing()
 	printf( "no args:(\n" );
 }
 
+void cTest::runTest()
+{
+	printf( "Ran test\n" );
+}
 
 int main()
 {
@@ -42,6 +43,7 @@ int main()
 
 	cReflectionRegistry::callFunction( "doThing", { "321123" } );
 	cReflectionRegistry::callFunction( "doSingleThing" );
+	cReflectionRegistry::callFunction( "cTest::runTest" );
 
 	return 0;
 }
