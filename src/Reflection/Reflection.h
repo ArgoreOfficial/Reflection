@@ -25,10 +25,10 @@ void ForEachIndex( F&& f )
 // TYPE CONVERSION
 
 template <typename T>
-static T ConvertArg( char const* _str );
+static T convertArg( char const* _str );
 
 template<>
-int ConvertArg<int>( char const* _str )
+int convertArg<int>( char const* _str )
 {
 	return std::stoi( _str );
 }
