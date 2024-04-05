@@ -14,42 +14,56 @@ public:
 };
 REFLECT_STATIC_MEMBER( cTest, runTest )
 
-static void doThing( int _i ); REFLECT_STATIC( doThing )
-static void doSingleThing();   REFLECT_STATIC( doSingleThing )
-
-
+static void doThing( int _i );                 REFLECT_STATIC( doThing )
+static void doSingleThing();                   REFLECT_STATIC( doSingleThing )
+static void funcSig( std::string _func_name ); REFLECT_STATIC( funcSig )
 
 /* impl */
-void doThing( int _i )
+void doThing( int _i ) { printf( "Did thing %i\n", _i ); }
+void doSingleThing()   { printf( "no args:(\n" ); }
+void cTest::runTest()  { printf( "Ran test\n" ); }
+
+void realFuncSig( sReflectionDescriptor& _desc )
 {
-	printf( "Did thing %i\n", _i );
+	std::vector<std::string> args = _desc.func->getArgsTypeNames();
+	printf( "%s(", _desc.name.c_str() );
+	
+	// print params
+	if ( args.size() > 0 )
+	{
+		printf( " %s", args[ 0 ].c_str() );
+		for ( int i = 1; i < args.size(); i++ )
+		{
+			printf( ", %s", args[ i ].c_str() );
+		}
+		printf( " " );
+	}
+
+	printf( "):\n  %s (%i)\n\n", _desc.file.c_str(), _desc.line );
 }
 
-void doSingleThing()
+void funcSig( std::string _func_name )
 {
-	printf( "no args:(\n" );
-}
-
-void cTest::runTest()
-{
-	printf( "Ran test\n" );
+	if ( cReflectionRegistry::m_reflection_descriptors.count( _func_name ) == 0 )
+	{
+		printf( "Function not found.\n" );
+		return;
+	}
+	
+	sReflectionDescriptor& desc = cReflectionRegistry::m_reflection_descriptors[ _func_name ];
+	realFuncSig( desc );
 }
 
 int main()
 {
-	
-
-	for( auto& f : cReflectionRegistry::m_reflection_descriptors )
-		printf( "%s()\n  %s (%i)\n\n", f.second.name.c_str(), f.second.file.c_str(), f.second.line );
-
-	// cReflectionRegistry::callFunction( "doThing", { "321123" } );
-	// cReflectionRegistry::callFunction( "doSingleThing" );
-	// cReflectionRegistry::callFunction( "cTest::runTest" );
+	for ( auto& f : cReflectionRegistry::m_reflection_descriptors )
+		realFuncSig( f.second );
 
 	cCommandConsole command_console;
 
 	while ( true )
 	{
+		printf( "\n> " );
 		sCommand command = command_console.pollNextCommand();
 
 		cReflectionRegistry::callFunction( command.command, command.arguments );

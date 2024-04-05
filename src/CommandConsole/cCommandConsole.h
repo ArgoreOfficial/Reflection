@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include "../Reflection/Reflection.h"
 
 struct sCommand
 {
@@ -18,4 +19,9 @@ public:
 
 	sCommand pollNextCommand();
 	
+	static void doCommand()
+	{
+		printf( "did command\n" );
+	}
 };
+REFLECT_STATIC_MEMBER( cCommandConsole, doCommand )

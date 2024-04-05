@@ -8,7 +8,6 @@ sCommand cCommandConsole::pollNextCommand()
 	sCommand command{};
 
 	std::string input;
-	printf( "> " );
 	std::getline( std::cin, input );
 
 	std::istringstream iss( input );
