@@ -2,13 +2,11 @@
 
 #include <string>
 #include <map>
-
-
 #include <vector>
 
 class iArgOperator;
 
-struct sReflectionDescriptor
+struct sStaticReflection
 {
 	int id;
 	std::string name;
@@ -20,8 +18,9 @@ struct sReflectionDescriptor
 class cReflectionRegistry
 {
 public:
-	static inline std::map<std::string, sReflectionDescriptor> m_reflection_descriptors;
+	static inline std::map<std::string, sStaticReflection> m_functions;
 
-	static int  registerReflection( const std::string _name, const std::string _file, int _line, iArgOperator* _func );
-	static void callFunction      ( std::string _name, const std::vector<std::string>& _args = {} );
+	static int  reflectStatic( const std::string _name, const std::string _file, int _line, iArgOperator* _func );
+	static int  reflectStatic( const std::string _name, iArgOperator* _func );
+	static void callFunction ( std::string _name, const std::vector<std::string>& _args = {} );
 };

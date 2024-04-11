@@ -24,4 +24,4 @@ public:
 		printf( "did command\n" );
 	}
 };
-REFLECT_STATIC_MEMBER( cCommandConsole, doCommand )
+REFLECT_STATIC( cCommandConsole::doCommand )

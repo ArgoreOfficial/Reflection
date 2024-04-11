@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-
+#include "cReflectionRegistry.h"
 #include "ArgConvert.h"
 
 class iArgOperator
@@ -29,6 +29,25 @@ private:
 
 	void( *f )( Args... );
 };
+
+
+template<typename F, F f>
+class cReflectionHelper
+{
+public:
+	struct creator
+	{
+		creator( const std::string _name )
+		{
+			cReflectionRegistry::reflectStatic( _name, (iArgOperator*)&( cReflectionHelper<F, f>::func ) );
+		}
+	};
+
+	static const inline cReflectedFunction func{ f };
+	static int id;
+	static creator factory;
+};
+
 
 template<typename ...Args>
 inline void cReflectedFunction<Args...>::operator()( const std::vector<std::string>& _args )
