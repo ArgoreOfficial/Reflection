@@ -67,7 +67,7 @@ inline void cReflectedFunction<Args...>::handleImpl( std::index_sequence<S...>, 
 {
 	if ( getArgCount() != (int)_args.size() )
 	{
-		printf( "Error: Expected %i arguments, got %i\n", (int)getArgCount(), (int)_args.size());
+		printf( "Error: Expected %i arguments, got %i", (int)getArgCount(), (int)_args.size());
 
 		return;
 	}

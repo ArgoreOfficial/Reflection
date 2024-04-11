@@ -18,10 +18,4 @@ public:
 	~cCommandConsole() { }
 
 	sCommand pollNextCommand();
-	
-	static void doCommand()
-	{
-		printf( "did command\n" );
-	}
 };
-REFLECT_STATIC( cCommandConsole::doCommand )

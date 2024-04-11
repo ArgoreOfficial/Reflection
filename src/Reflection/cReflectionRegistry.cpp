@@ -22,8 +22,8 @@ int cReflectionRegistry::reflectStatic( const std::string _name, iArgOperator* _
 	sStaticReflection desc{
 		.id = (int)cReflectionRegistry::m_functions.size(),
 		.name = _name,
-		.file = "unknown file",
-		.line = 0,
+		.file = "???",
+		.line = -1,
 		.func = _func
 	};
 
