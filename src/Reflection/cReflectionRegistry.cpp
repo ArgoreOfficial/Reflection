@@ -1,8 +1,6 @@
 #include "cReflectionRegistry.h"
 #include "cReflectedFunction.h"
 
-//std::map<std::string, sStaticReflection> cReflectionRegistry::m_functions = {};
-
 int cReflectionRegistry::reflectStatic( const std::string _name, const std::string _file, int _line, iArgOperator* _func )
 {
 	sStaticReflection desc{
@@ -19,16 +17,7 @@ int cReflectionRegistry::reflectStatic( const std::string _name, const std::stri
 
 int cReflectionRegistry::reflectStatic( const std::string _name, iArgOperator* _func )
 {
-	sStaticReflection desc{
-		.id = (int)cReflectionRegistry::m_functions.size(),
-		.name = _name,
-		.file = "???",
-		.line = -1,
-		.func = _func
-	};
-
-	cReflectionRegistry::m_functions[ desc.name ] = desc;
-	return (int)cReflectionRegistry::m_functions.size();
+	return reflectStatic( _name, "", -1, _func );
 }
 
 void cReflectionRegistry::callFunction( std::string _name, const std::vector<std::string>& _args )

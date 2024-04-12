@@ -12,15 +12,29 @@ static bool run = true;
 static void program_exit() 
 { 
 	run = false; 
-} REFLECT_STATIC_NAME( program_exit, "exit" )
+} 
+REFLECT_STATIC_NAME( program_exit, "exit" )
+
+
+class bob
+{
+public:
+	static int inline stefan{ 1 };
+};
+
+
+
 
 int main()
 {
+	ShowWindow( GetConsoleWindow(), SW_SHOW );
+
 	cCommandConsole command_console;
 	HANDLE console_handle = GetStdHandle( STD_OUTPUT_HANDLE );
 
 	SetConsoleTextAttribute( console_handle, 7 );
 	printf( "C++ Reflection System\nType \"help\" for a list of all reflected functions\n" );
+	printf( "stefan: %i\n", bob::stefan );
 
 	while ( run )
 	{
@@ -33,5 +47,7 @@ int main()
 	}
 
 	SetConsoleTextAttribute( console_handle, 7 );
+
+	ShowWindow( GetConsoleWindow(), SW_HIDE );
 	return 0;
 }

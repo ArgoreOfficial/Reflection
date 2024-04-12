@@ -1,0 +1,15 @@
+[
+  {
+    "version" : 1
+  },
+  {
+    "action" : {
+      "script" : "./build.bat",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "Build",
+    "target" : "repository"
+  }
+]
