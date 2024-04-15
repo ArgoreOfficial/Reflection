@@ -23,8 +23,6 @@ public:
 };
 
 
-
-
 int main()
 {
 	ShowWindow( GetConsoleWindow(), SW_SHOW );
@@ -35,7 +33,7 @@ int main()
 	SetConsoleTextAttribute( console_handle, 7 );
 	printf( "C++ Reflection System\nType \"help\" for a list of all reflected functions\n" );
 	printf( "stefan: %i\n", bob::stefan );
-
+	
 	while ( run )
 	{
 		SetConsoleTextAttribute( console_handle, 8 );

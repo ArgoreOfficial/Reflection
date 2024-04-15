@@ -31,22 +31,23 @@ private:
 };
 
 
-template<typename F, F f>
-class cReflectionHelper
+template<auto f, class F = decltype( *f )>
+struct Reflect
+{
+	Reflect( const std::string _name )
+	{
+		static cReflectedFunction func( f );
+		cReflectionRegistry::reflectStatic( _name, (iArgOperator*)( &func ) );
+	}
+};
+
+template<auto f, class F = decltype( *f )>
+class Reflector
 {
 public:
-	struct creator
-	{
-		creator( const std::string _name )
-		{
-			cReflectionRegistry::reflectStatic( _name, (iArgOperator*)&( cReflectionHelper<F, f>::func ) );
-		}
-	};
-
-	static const inline cReflectedFunction func{ f };
-	static int id;
-	static creator factory;
+	static Reflect<f, F> creator;
 };
+
 
 
 template<typename ...Args>
